@@ -1,0 +1,35 @@
+name: Create Review App
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches:
+      - '**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18.17.0
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build
+
+      - name: Configure Vercel CLI
+        run: |
+          mkdir -p ~/.vercel
+          echo "{\"token\":\"${{ secrets.VERCEL_TOKEN }}\"}" > ~/.vercel/auth.json
+
+      - name: Deploy to Vercel
+        run: vercel --prod --confirm --token ${{ secrets.VERCEL_TOKEN }}
