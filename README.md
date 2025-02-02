@@ -1,3 +1,3 @@
-# Omega Ec Backend
+# Omega Ec Frontend
 
-This is an ec backend built with
+This is an ec frontend built with
